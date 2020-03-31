@@ -1,0 +1,295 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.13.5
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-JS-LODASH-450202:
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/generator > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/generator > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/helper-function-name > @babel/helper-get-function-arity > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/helper-module-imports > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/generator > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/helper-function-name > @babel/template > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/helper-function-name > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/helper-split-export-declaration > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > @babel/generator > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/template > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/template > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/generator > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/types > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/traverse > @babel/generator > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - babel-plugin-source-map-support > @babel/core > @babel/helpers > @babel/traverse > lodash:
+        reason: review
+        expires: '2019-11-14T13:02:37.313Z'
+    - csvtojson > lodash:
+        reason: review next
+        expires: '2019-11-14T13:02:37.313Z'
+    - lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.313Z'
+    - request-promise > request-promise-core > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.313Z'
+    - serverless-webpack > archiver > zip-stream > archiver-utils > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - serverless-webpack > archiver > zip-stream > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - serverless-webpack > archiver > async > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - serverless-webpack > archiver > archiver-utils > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - serverless-webpack > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - serverless-webpack > archiver > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > @snyk/snyk-cocoapods-plugin > @snyk/dep-graph > graphlib > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > snyk-nodejs-lockfile-parser > graphlib > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > @snyk/snyk-cocoapods-plugin > @snyk/cocoapods-lockfile-parser > @snyk/dep-graph > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > @snyk/snyk-cocoapods-plugin > @snyk/cocoapods-lockfile-parser > @snyk/dep-graph > graphlib > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > @snyk/dep-graph > graphlib > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > snyk-go-plugin > graphlib > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > @snyk/dep-graph > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > @snyk/snyk-cocoapods-plugin > @snyk/dep-graph > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - snyk > snyk-nuget-plugin > dotnet-deps-parser > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - soap > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - ssh2-promise > @heroku/socksv5 > ip-address > lodash:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack-plugin-copy > lodash:
+        reason: ''
+        expires: '2019-11-14T13:02:37.315Z'
+  SNYK-JS-SETVALUE-450213:
+    - webpack > watchpack > chokidar > readdirp > micromatch > extglob > expand-brackets > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > extglob > expand-brackets > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > micromatch > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > braces > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > extglob > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > nanomatch > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > braces > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > extglob > expand-brackets > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > braces > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > braces > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > nanomatch > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > nanomatch > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > extglob > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > extglob > snapdragon > base > cache-base > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > braces > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > extglob > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > nanomatch > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > braces > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > micromatch > extglob > expand-brackets > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > braces > snapdragon > base > cache-base > union-value > set-value:
+        reason: to review
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > braces > snapdragon > base > cache-base > union-value > set-value:
+        reason: no upgrade yet
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > nanomatch > snapdragon > base > cache-base > union-value > set-value:
+        reason: yj review asap
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > nanomatch > snapdragon > base > cache-base > union-value > set-value:
+        reason: no patch
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > extglob > snapdragon > base > cache-base > union-value > set-value:
+        reason: None given
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > extglob > snapdragon > base > cache-base > union-value > set-value:
+        reason: no upgrade yet
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > extglob > expand-brackets > snapdragon > base > cache-base > union-value > set-value:
+        reason: await notification
+        expires: '2019-11-14T13:02:37.316Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > extglob > expand-brackets > snapdragon > base > cache-base > union-value > set-value:
+        reason: no patch as yet
+        expires: '2019-11-14T13:02:37.316Z'
+  SNYK-JS-MIXINDEEP-450212:
+    - webpack > micromatch > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > micromatch > braces > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > micromatch > extglob > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > micromatch > nanomatch > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > braces > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > micromatch > extglob > expand-brackets > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > braces > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > braces > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > nanomatch > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > nanomatch > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > extglob > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > extglob > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.314Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > extglob > expand-brackets > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > anymatch > micromatch > extglob > expand-brackets > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+    - webpack > watchpack > chokidar > readdirp > micromatch > snapdragon > base > mixin-deep:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+  SNYK-JS-CSVPARSE-467403:
+    - jsforce > csv-parse:
+        reason: None given
+        expires: '2019-11-14T13:02:37.315Z'
+  'snyk:lic:npm:babel-plugin-source-map-support:Artistic-2.0':
+    - babel-plugin-source-map-support:
+        reason: no upgrade available
+        expires: '2019-11-14T13:02:37.316Z'
+patch: {}

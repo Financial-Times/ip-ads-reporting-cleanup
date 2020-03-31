@@ -1,0 +1,83 @@
+service: ip-ads-reporting-cleanup
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: eu-west-1
+  role: ${env:AWS_ROLE}
+  deploymentBucket: ${env:AWS_DEPLOYMENT_BUCKET}
+  stage: dev
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+    CONSOLE_LOG_LEVEL: ${env:CONSOLE_LOG_LEVEL}
+    ADBOOK_API_URL: ${env:ADBOOK_API_URL}
+    ADBOOK_USERNAME: ${env:ADBOOK_USERNAME}
+    ADBOOK_PASSWORD: ${env:ADBOOK_PASSWORD}
+    ADS_CLEANUP_FOLDER: ${env:ADS_CLEANUP_FOLDER}
+    ADS_DELETE_FOLDER: ${env:ADS_DELETE_FOLDER}
+    ADS_SEARCH_FOLDER: ${env:ADS_SEARCH_FOLDER}
+    ADS_TECH_TEAM: ${env:ADS_TECH_TEAM}
+    EMAIL_RECIPIENT: ${env:EMAIL_RECIPIENT}
+    EMAIL_SENDER: ${env:EMAIL_SENDER}
+    EMAIL_SERVICE_API_KEY: ${env:EMAIL_SERVICE_API_KEY}
+    EMAIL_SERVICE_API_URL: ${env:EMAIL_SERVICE_API_URL}
+    EMAIL_SERVICE_DOMAIN: ${env:EMAIL_SERVICE_DOMAIN}
+    BUCKET_NAME: ${env:BUCKET_NAME}
+    REPORTNAME: ${env:REPORTNAME}
+    ADS_HEALTHCHECKS: ${env:ADS_HEALTHCHECKS}
+  stackTags:
+    stack: ip-ads-reporting-cleanup-dev
+    systemCode: ip-ads-reporting-cleanup
+    environment: d
+    teamDL: aaron.fairtlough@ft.com
+
+functions:
+  extract:
+    name: handle-extraction
+    memorySize: 512
+    timeout: 300
+    handler: src/functions/extract/extract.handler
+    environment: 
+      BATCH_SIZE: 200
+  transform:
+    name: handle-search
+    memorySize: 512
+    timeout: 300
+    handler: src/functions/transform/index.transform    
+
+stepFunctions:
+  stateMachines:
+    processfile:
+      name: stepf-process-delete
+      definition:
+        Comment: "Ad-revenue deletion application"
+        StartAt: Extract
+        States:
+          Extract:
+            Type: Task
+            Resource: "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}" 
+            Next: CheckResults
+          Iterate:
+            Type: Pass
+            Result: { success: true }
+            ResultPath: $.Iterate
+            Next: Extract
+          Done:
+            Type: Pass
+            End: true  
+          CheckResults: 
+            Type: Choice
+            Choices: 
+              - Variable: "$.extract.results['finished']"
+                BooleanEquals: false
+                Next: "Iterate"
+            Default: "Done"
+plugins:
+  - serverless-webpack
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true  
+
