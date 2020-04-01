@@ -1,6 +1,6 @@
 # ip-ads-reporting
 Queries the Adbook (Ads OMS) to delete AdRevenue and AdRevenueSchedule info from Salesforce
-This is implemented with a Step function to help cope with the large volumen of line items to be processed
+This is implemented with a Step function to help cope with the large volume of line items to be processed
 
 Serverless yaml defines a state machine shown below this can be run on a schedule.
 stateMachines:
@@ -30,10 +30,9 @@ stateMachines:
                 Next: "Iterate"
             Default: "Done"
 
-Due to the large number of lines to be processed a step function allows us to get more control over the execution time of the lambda.  The consuming lambda's can then be run concurrently or if lambda concurrency limits execution one can build in a wait state .  So you can run a batch then wait a specified amount of time before running the next batch, this will be defined in the step function no code changes required.  In this case a wait has not been deemed necessary but can be built in if needing to extend the process to run for up to 24 months and if lambda concurrency limits become an issue. Again the batch size can be varied and defined in the step function as an env var rather than in the code.
+Due to the large number of lines to be processed a step function allows us to get more control over the execution time of the lambda.  The consuming lambda's can then be run concurrently or if lambda concurrency limits execution one can build in a wait state .  So you can run a batch then wait a specified amount of time before running the next batch, this will be defined in the step function, no code changes required.  In this case a wait has not been deemed necessary but can be built in if needing to extend the process to run for up to 24 months and if lambda concurrency limits become an issue. Again the batch size can be varied and defined in the step function as an env var rather than in the code.
 
-stepf-process-delete should kicks off on schedule with Extract, Extract is a lambda function extract calls the adbook api and downloads the report from 2 months prior to today and going forward 14 months.  That file is saved to s3 once saved it is then processed line by line to extract those line items that are yet to start.  The first step is a call to the handle-extract function, first call is made with and {}
-file downloaded from  getDQTReport get called initially with variables for the total number of rows downloaded from adbook where the start date is >= the start of the current period (2 months prior - 14 months ahead), number of rows processed so far and an array for any errors.  getDqt downloads the file from adbook, processes the first batchsize currently 200 rows then saves it to the search folder.
+stepf-process-delete kicks off on schedule with Extract, Extract is a lambda function it calls the adbook api and downloads the report from 2 months prior to today and going forward 14 months.  That file is saved to s3.   Once saved it is processed line by line to extract those line items that are yet to start.  The first step is a call to the handle-extract function, first call is made with {}. getDQTReport get called with variables for the total number of rows downloaded from adbook where the start date is >= the start of the current period (2 months prior - 14 months ahead), number of rows processed so far and an array for any errors (errors are all just sent to splunk).  getDqt downloads the file from adbook, processes the first batchsize currently 200 rows then saves it to the search folder.
 
 stateMachines:
     processfile:
@@ -46,7 +45,7 @@ stateMachines:
             Type: Task
             Resource: "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}" 
             Next: CheckResults
-Once the first batch of 200 is done getDQT ends the first iteration by return {} this is passed to CheckResults.
+Once the first batch of 200 is done getDQT ends the first iteration by return {{ processedRows: value, importedRows: value, errors: 'not used currently', finished: boolean } this is passed to CheckResults.
 
 CheckResults: 
             Type: Choice
