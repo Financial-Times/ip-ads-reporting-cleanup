@@ -75,4 +75,15 @@ This approach gives more flexibility and is scalable.
 
 enhancement note: There is a jsforce method which is supposed to pull parent together with all it children in one call but when I tried to use it last year it did not work it is worth investigating again to see if it now works.  So it is a select and include clause.  This will save having to make a call first to get the parent and then the children.
 
+Can run this offline by adding the following to serverless yaml
+    add this to the plugins section 
+        - serverless-step-functions-offline
+    add a list of the lambda functions to the custom: section
+        Extract: extract
+        Transform: transform
+        Delete: delete
+
+At the command line run step-functions-offline --stateMachine=processfile      
+
+I will send this to you as a word document some of the formatting is not great in this file.  
 
