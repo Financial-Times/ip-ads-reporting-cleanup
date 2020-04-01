@@ -32,7 +32,7 @@ stateMachines:
 
 Due to the large number of lines to be processed a step function allows us to get more control over the execution time of the lambda.  The consuming lambda's can then be run concurrently or if lambda concurrency limits execution one can build in a wait state .  So you can run a batch then wait a specified amount of time before running the next batch, this will be defined in the step function, no code changes required.  In this case a wait has not been deemed necessary but can be built in if needing to extend the process to run for up to 24 months and if lambda concurrency limits become an issue. Again the batch size can be varied and defined in the step function as an env var rather than in the code.
 
-stepf-process-delete kicks off on schedule with Extract, Extract is a lambda function it calls the adbook api and downloads the report from 2 months prior to today and going forward 14 months.  That file is saved to s3.   Once saved it is processed line by line to extract those line items that are yet to start.  The first step is a call to the handle-extract function, first call is made with {}. getDQTReport get called with variables for the total number of rows downloaded from adbook where the start date is >= the start of the current period (2 months prior - 14 months ahead), number of rows processed so far and an array for any errors (errors are all just sent to splunk).  getDqt downloads the file from adbook, processes the first batchsize currently 200 rows then saves it to the search folder.
+stepf-process-delete kicks off on schedule with Extract, Extract is a lambda function it calls the adbook api and downloads the report from 2 months prior to today and going forward 14 months.  That file is saved to s3.   Once saved it is processed line by line to extract those line items that are yet to start.  The first step is a call to the handle-extract function, first call is made with {}. getDQTReport gets called with variables for the total number of rows downloaded from adbook where the start date is >= the start of the current period (2 months prior - 14 months ahead), number of rows processed so far and an array for any errors (errors are all just sent to splunk).  getDqt downloads the file from adbook, processes the first batchsize currently 200 rows then saves it to the search folder.
 
 stateMachines:
     processfile:
@@ -45,7 +45,7 @@ stateMachines:
             Type: Task
             Resource: "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}" 
             Next: CheckResults
-Once the first batch of 200 is done getDQT ends the first iteration by return {{ processedRows: value, importedRows: value, errors: 'not used currently', finished: boolean } this is passed to CheckResults.
+Once the first batch of 200 is done getDQT ends the first iteration and returns an object with processedRows: value, importedRows: value, errors: 'not used currently', finished: boolean, this is passed to CheckResults.
 
 CheckResults: 
             Type: Choice
@@ -57,7 +57,7 @@ CheckResults:
 
  CheckResults will check the output for the finished status, if finished is not true it will call the Iterate step using it to pass the results from the last run and trigger the Extract again to carry on and run the next batch of 200.
 
- On the otherhand if finished is true the Default done is called to end the state machine.
+ On the other hand if finished is true the Default done is called to end the state machine.
 
  Iterate:
             Type: Pass
@@ -73,6 +73,6 @@ Once all the id's in the file have been validated any drops found to have been r
 
 This approach gives more flexibility and is scalable.
 
-enhancement note: There is a jforce method which is supposed to pull parent together with all it children in one call but when I tried to use it last year it did not work it is worth investigating again to see if it now works.  So it is a select and include clause.  This will save having to make a call first to get the parent and then the children.
+enhancement note: There is a jsforce method which is supposed to pull parent together with all it children in one call but when I tried to use it last year it did not work it is worth investigating again to see if it now works.  So it is a select and include clause.  This will save having to make a call first to get the parent and then the children.
 
 
