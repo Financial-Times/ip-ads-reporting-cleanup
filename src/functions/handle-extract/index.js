@@ -7,7 +7,7 @@ const handle = async (event, context, callback) => {
 	let end = false;
 
 	try {
-		var result = event.hasOwnProperty('extract') ? event.extract.results : { processedRows: 0, importedRows: 0, errors: [] };
+		var result = event.hasOwnProperty('extract') ? event.extract : { result : {processedRows: 0, importedRows: 0, errors: [] }};
 		console.log(result);
 
 		logger.setContext({
@@ -44,7 +44,7 @@ const handle = async (event, context, callback) => {
 		console.log('Error stopped progress', err);
 		end = true;
 		event['extract'] = {
-			'results':
+			'result':
             { 'finished': end } };
 		callback(null, event);
 	}

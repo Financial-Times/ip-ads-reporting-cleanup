@@ -24,6 +24,7 @@ const downloadReport = (jobId, download_url, local_filename, client, params, rej
 
 	let idArray = [];
 	let returnValue;
+	const filteredResult = [];
 	let end = false;
 
 	if (!ADS_CLEANUP_FOLDER || !ADS_SEARCH_FOLDER) {
@@ -47,7 +48,7 @@ const downloadReport = (jobId, download_url, local_filename, client, params, rej
 				logger.error({
 					event: '[DELETE EXTRACT]',
 					message: JSON.stringify({ msg: `In downloadReport adbookExtract s3 Save Err :${err}`, jobId: jobId }) });
-				return reject(new Error('Error in Saving results in s3: ' + err.message));
+				// return reject(new Error('Error in Saving results in s3: ' + err.message));
 			});
 
 		logger.info({
@@ -60,10 +61,13 @@ const downloadReport = (jobId, download_url, local_filename, client, params, rej
 				const map = new Map();
 				if (!map.has(data['Drop ID'])) { //probably don't need map
 					map.set(data['Drop ID'], true);
-					if (moment(data['Start Date'], 'DD/MM/YYYY') >= moment(startDate, 'DD/MM/YYYY')) {
+					// if (moment(data['Start Date'], 'DD/MM/YYYY') >= moment(startDate, 'DD/MM/YYYY')) {
 						idArray.push({ id: data['Drop ID'] } );
-					}
+					// }
 				}
+
+			})
+			.on('end', async () => {
 
 				let i = params.result.processedRows; //pass from handle extract
 				let filteredRows = [];
@@ -74,9 +78,14 @@ const downloadReport = (jobId, download_url, local_filename, client, params, rej
 					count = params.result.importedRows;
 				}
 
+				console.log(idArray.length);
+
 				for (i ; i < count; i++) {
 					filteredRows.push(idArray[i]);
+					// filteredResult.push(idArray[i]);
 				}
+
+				console.log(filteredRows.length);
 
 				const parser = new Parser();
 				let csv = parser.parse(filteredRows);
@@ -89,42 +98,47 @@ const downloadReport = (jobId, download_url, local_filename, client, params, rej
 					key: ADS_SEARCH_FOLDER,
 					buffer: bodyBuffer };
 
-				saveResult(saveParamsFiltered).then( () => console.log('done')).
-					catch((err) => {
+				saveResult(saveParamsFiltered)
+					.catch((err) => {
 						throw new Error ('Eror in save:::', err);
 					});
 
+				console.log('after saving...');
 				if (i === params.result.importedRows) {
 					console.log('Ending', i);
 					end = true;
 				}
 
-				returnValue = { 'results':
+				returnValue = { 'result':
 				{ 'finished': end,
 					'processedRows': i,
 					'importedRows': idArray.length,
 				},
 				};
-			})
-			.on('end', async () => {
+
 				logger.info({
 					event: '[EXTRACT]',
 					message: JSON.stringify({ msg: 'Extract complete' }) });
+					console.log('returnValue: '+returnValue);
+
+				resolve(returnValue);	
 			})
 			.on('error', (e) => {
 				logger.error({
 					event: '[DELETE EXTRACT]',
 					message: JSON.stringify({ msg: `In clean-up downloadReport CsvParser Err :${e.message}`, jobId: jobId }) });
-				return reject(new Error(`Error reading the file from the url ${download_url} with err ${e.message}`));
+				// return reject(new Error(`Error reading the file from the url ${download_url} with err ${e.message}`));
 			});
 	})
 		.catch((err)=> {
 			logger.error({
 				event: '[EXTRACT]',
 				message: JSON.stringify({ msg: `In downloadReport Download Report Err :${err.message}`, jobId: jobId }) });
-			return reject(new Error(`Error in Downloading the file from the url ${download_url} with err ${err.message}`));
+			// return reject(new Error(`Error in Downloading the file from the url ${download_url} with err ${err.message}`));
 		});
-	return resolve(returnValue);
+		console.log('returnValue 2: '+returnValue);
+
+	// return returnValue;	
 };
 
 const getDQTReport = (client, params) => {
@@ -160,6 +174,8 @@ const getDQTReport = (client, params) => {
 			xmldocNew.documentElement.appendChild(savedReport);
 			let xmlString = new XMLSerializer().serializeToString(xmldocNew);
 
+			console.log(xmlString);
+
 			logger.info({
 				event: '[EXTRACT]',
 				message: JSON.stringify({ msg: 'GetSavedReportQuery #' + savedReportId }) });
@@ -187,8 +203,10 @@ const getDQTReport = (client, params) => {
 				parent.appendChild(reportQueryNode);
 
 				//Added the date range before running the DQT
-				startDate = moment().subtract(2, 'months').startOf('month').format('MM/DD/YYYY');
-				endDate = moment().add(14, 'months').endOf('month').format('MM/DD/YYYY');
+				// startDate = moment().startOf('month').format('MM/DD/YYYY');
+				// endDate = moment().endOf('month').format('MM/DD/YYYY');
+				startDate='04/02/2020';
+				endDate='04/02/2020';
 
 				console.log('Start-End Date: ' + startDate + '-' + endDate);
 
@@ -202,6 +220,8 @@ const getDQTReport = (client, params) => {
 
 				//deserialize
 				let xmlString = new XMLSerializer().serializeToString(xmldocNew);
+
+				console.log(xmlString);
 
 				//Add the soap envelope
 				client.wsdl.xmlnsInEnvelope = 'xmlns:api="http://www.FatTail.com/api" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:sys="http://schemas.datacontract.org/2004/07/System.Collections.Generic"';
@@ -230,7 +250,7 @@ const getDQTReport = (client, params) => {
 					try {
 						if (status !== 'Done'){
 							setTimeout(function () {
-								checkReportCompleted(jobId, params, reject, resolve);
+								checkReportCompleted(client, jobId, params, reject, resolve);
 							}, 100);
 						}
 					} catch (err){
@@ -243,9 +263,9 @@ const getDQTReport = (client, params) => {
 			});
 		});
 	});
-
+};
 	//Checks the status of the reportJobId until Done or Failed
-	function checkReportCompleted (jobId, params, reject, resolve) {
+	function checkReportCompleted (client, jobId, params, reject, resolve) {
 
 		const timestamp = new Date().getTime();
 		let reportJobId = jobId;
@@ -265,7 +285,7 @@ const getDQTReport = (client, params) => {
 				logger.error({
 					event: '[DELETE EXTRACT]',
 					message: JSON.stringify({ msg: `In checkReportCompleted for GetReportJob :${err.message}`, jobId: reportJobId }) });
-				return reject(new Error('Error in GetReportJob: ' + err.message));
+				// return reject(new Error('Error in GetReportJob: ' + err.message));
 			}
 
 			let jobId = result.GetReportJobResult.ReportJobID;
@@ -285,7 +305,7 @@ const getDQTReport = (client, params) => {
 						logger.error({
 							event: '[DELETE EXTRACT]',
 							message: JSON.stringify({ msg: `In checkReportCompleted for GetReportDownloadURL :${err.message}`, jobId: reportJobId }) });
-						return reject(new Error('Error in GetReportDownloadURL: ' + err.message));
+						// return reject(new Error('Error in GetReportDownloadURL: ' + err.message));
 					}
 					console.log('Downloading report from ' + JSON.stringify(result));
 
@@ -295,7 +315,8 @@ const getDQTReport = (client, params) => {
 							message: JSON.stringify({ msg: 'Raw request:', rawRequest }) });
 					}
 					try {
-						result = downloadReport(reportJobId, result.GetReportDownloadURLResult, `${new Date().toISOString().substring(0, 10)}/downloaded_report_${jobId}_${timestamp}.csv`, client, params, reject, resolve);
+						result = downloadReport(reportJobId, result.GetReportDownloadURLResult, `${new Date().toISOString().substring(0, 10)}/downloaded_report_${jobId}_${timestamp}.csv`, client, params, reject, resolve).then(() => { console.log('hello');});
+					console.log('result: '+result);
 					} catch (err) {
 						logger.error({ event: '[GET_DQT_REPORT]:', message: err });
 					}
@@ -312,11 +333,12 @@ const getDQTReport = (client, params) => {
 
 			if (status === 'Running' || jobId === 'Pending') {
 				setTimeout(function () {
-					checkReportCompleted(jobId, params, reject, resolve);
+					checkReportCompleted(client, jobId, params, reject, resolve);
 				}, 100);
 			}
+
 		});
-		return resolve(result);
-	}
-};
+
+}
+
 export { getDQTReport };

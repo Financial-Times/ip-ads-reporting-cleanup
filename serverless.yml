@@ -42,19 +42,14 @@ functions:
     name: handle-extraction
     memorySize: 512
     timeout: 300
-    handler: src/functions/extract/extract.handler
+    handler: src/functions/handle-extract/index.handle
     environment: 
       BATCH_SIZE: 200
-  transform:
-    name: handle-search
-    memorySize: 512
-    timeout: 300
-    handler: src/functions/transform/index.transform    
 
 stepFunctions:
   stateMachines:
     processfile:
-      name: stepf-process-delete
+      name: step-process-delete
       definition:
         Comment: "Ad-revenue deletion application"
         StartAt: Extract
@@ -74,16 +69,20 @@ stepFunctions:
           CheckResults: 
             Type: Choice
             Choices: 
-              - Variable: "$.extract.results['finished']"
+              - Variable: "$.extract.result['finished']"
                 BooleanEquals: false
                 Next: "Iterate"
             Default: "Done"
 plugins:
   - serverless-webpack
+  - serverless-step-functions-offline
   - serverless-step-functions
   - serverless-pseudo-parameters
+  - serverless-offline
 custom:
   webpack:
     webpackConfig: ./webpack.config.js
     includeModules: true  
+  stepFunctionsOffline:  
+    Extract: extract
 
