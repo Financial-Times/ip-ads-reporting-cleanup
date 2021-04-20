@@ -8,7 +8,7 @@
     "prepare": "snyk protect"
   },
   "dependencies": {
-    "@financial-times/n-serverless-logger": "^0.2.0",
+    "@financial-times/n-serverless-logger": "^0.4.0",
     "ajv": "^5.0.0",
     "aws-lambda": "^1.0.5",
     "aws-sdk": "^2.266.1",
